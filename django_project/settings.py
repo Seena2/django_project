@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,16 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-e9phz==e38ks&s6w7_-t&^+uf%=3$@6!9@-tw)j^*2_(ot&%&^'
-
+# SECRET_KEY=config(‘SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.debug',
+                
             ],
         },
     },
@@ -114,4 +122,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_URL = 'static/'
+# tell crisp the CSS framework you want to use to CRispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# change the default django behaviour of redirecting user to the profile page after successful login
+# lets redirect user to home page instead of profile page
+LOGIN_REDIRECT_URL="blog_home"
+LOGIN_URL='login'
+
+# profile picture location
+MEDIA_ROOT=os.path.join(BASE_DIR,'media') #create directory 'media' at project root
+MEDIA_URL="/media/" #where the image is accessed in the browser publicly
+
+# Mail server settings
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+# access credentials from environmental variable :UN & PW for Gmail account
+EMAIL_HOST_USER=os.environ.get('EMAIL_USER')
+
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_PASS')
+
+

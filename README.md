@@ -1,3 +1,3 @@
-# cleared and available repo for use
+# anna
 
-make sure you redifine the repo discreption and README.md file when you start re-using this repo
+blog app using Django framework
